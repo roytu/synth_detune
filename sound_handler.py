@@ -14,19 +14,21 @@ class SoundHandler(object):
         self.pyaudio = pya.PyAudio()
         self.stream = None
 
-    def init_stream(self, callback=None, framerate=44100):
+    def init_stream(self, callback=None, framerate=44100, frames=44100):
         """ Initializes an internal stream object which can be written to live.
         
             Args:
                 callback : function that runs when the stream wants
                            more data (default=None)
                 framerate : sample rate in Hz (default=44100)
+                frames : number of frames per buffer (default=44100)
         """
         self.stream = self.pyaudio.open(format=pya.paInt16,
                                         channels=1,
                                         rate=framerate,
                                         output=True,
-                                        stream_callback=callback
+                                        stream_callback=callback,
+                                        frames_per_buffer=frames
                                         )
 
     def close(self):
